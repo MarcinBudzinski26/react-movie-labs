@@ -1,3 +1,4 @@
+import AddMovieReviewPage from './pages/addMovieReviewPage'
 import React from "react";
 import MovieReviewPage from "./pages/movieReviewPage";
 import { createRoot } from "react-dom/client";
@@ -9,6 +10,7 @@ import SiteHeader from './components/siteHeader'
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -31,6 +33,7 @@ const App = () => {
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={ <Navigate to="/" /> } />
+            <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
