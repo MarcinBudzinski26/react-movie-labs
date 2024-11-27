@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { useQuery } from "react-query";
 import { getUpcomingMovies } from "../api/tmdb-api";
-import Spinner from '../components/spinner';
+import Spinner from "../components/spinner";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import { MoviesContext } from "../contexts/moviesContext";
 
 const UpcomingMoviesPage = () => {
+  const { addToMustWatch } = useContext(MoviesContext);
+
   const { data, isLoading, error } = useQuery(
     "upcomingMovies",
     getUpcomingMovies
@@ -21,7 +24,7 @@ const UpcomingMoviesPage = () => {
   }
 
   const movies = data.results.map((movie) => {
-    movie.genre_ids = movie.genres ? movie.genres.map(g => g.id) : [];
+    movie.genre_ids = movie.genres ? movie.genres.map((g) => g.id) : [];
     return movie;
   });
 
@@ -31,7 +34,10 @@ const UpcomingMoviesPage = () => {
       movies={movies}
       action={(movie) => {
         return (
-          <IconButton aria-label="add to playlist">
+          <IconButton
+            aria-label="add to playlist"
+            onClick={() => addToMustWatch(movie)}
+          >
             <PlaylistAddIcon color="primary" fontSize="large" />
           </IconButton>
         );
