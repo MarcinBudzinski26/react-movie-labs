@@ -1,16 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { MoviesContext } from "../contexts/moviesContext";
 import { useQuery } from "react-query";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import Spinner from '../components/spinner';
-import AddToFavorites from "../components/cardIcons/addToFavorites";
-import WriteReview from "../components/cardIcons/writeReview";
+import IconButton from "@mui/material/IconButton";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const UpcomingMoviesPage = () => {
-  const {favorites: movieIds } = useContext(MoviesContext);
-
-  // Fetch upcoming movies using react-query
   const { data, isLoading, error } = useQuery(
     "upcomingMovies",
     getUpcomingMovies
@@ -29,18 +25,15 @@ const UpcomingMoviesPage = () => {
     return movie;
   });
 
-  const toDo = () => true;
-
   return (
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
       action={(movie) => {
         return (
-          <>
-            <AddToFavorites movie={movie} />
-            <WriteReview movie={movie} />
-          </>
+          <IconButton aria-label="add to playlist">
+            <PlaylistAddIcon color="primary" fontSize="large" />
+          </IconButton>
         );
       }}
     />
